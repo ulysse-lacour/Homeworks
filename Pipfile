@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+psycopg2-binary = "==2.9.3"
+requests = "==2.27.1"
+Flask = "==2.0.2"
+Flask-SQLAlchemy = "==2.5.1"
+Flask-Login = "==0.5.0"
+Werkzeug = "==2.0.3"
+Flask-Migrate = "==3.1.0"
+Pillow = "==9.1.1"
+
+[dev-packages]
+mypy = "==0.931"
+
+[requires]
+python_version = "3.9"
+
+[scripts]
+test = "pytest -v"

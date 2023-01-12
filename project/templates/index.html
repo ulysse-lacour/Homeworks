@@ -1,0 +1,408 @@
+<!-- templates/index.html -->
+
+{% extends "base.html" %} {% block content %}
+
+<script src="{{ url_for('static',filename='js/connect_user.js') }}"></script>
+
+<script src="{{ url_for('static',filename='js/index.js') }}"></script>
+
+{% if not current_user.is_authenticated %}
+<!-- BLUR IMAGES -->
+<style>
+  img {
+    filter: blur(10px) grayscale(150%) brightness(50%);
+  }
+
+  .description_text {
+    text-decoration: line-through;
+    text-decoration-thickness: 4px;
+  }
+</style>
+{% else %}
+<!-- DRAG N DROP -->
+<script src="{{ url_for('static',filename='js/drag_drop_files.js') }}"></script>
+
+<!-- FULL SCREEN IMAGES -->
+<script>
+  $(document).ready(function () {
+    $(".images").dblclick(function (event) {
+      let id = event.target.id;
+      var win = window.open(
+        "https://homeworks.ulysselacour.com/" + id,
+        "_blank"
+      );
+      win.focus();
+    });
+
+    $(".images_div").draggable();
+  });
+</script>
+{% endif %}
+
+<!-- SELECT FIELD TO CHOOSE DISPLAYED IMAGES -->
+<div class="field select_color_input">
+  <div class="select is-large">
+    <select id="selectField" class="select_color">
+      <option value="all" style="color: black !important">ALL</option>
+      <option value="000000" style="color: #000000">#000000</option>
+      <option value="FFE800" style="color: #ffe800">#FFE800</option>
+      <option value="46AF0E" style="color: #46af0e">#46AF0E</option>
+      <option value="006872" style="color: #006872">#006872</option>
+      <option value="0048BC" style="color: #0048bc">#0048BC</option>
+      <option value="FF6CE3" style="color: #ff6ce3">#FF6CE3</option>
+      <option value="ED322E" style="color: #ed322e">#ED322E</option>
+    </select>
+  </div>
+</div>
+
+<!-- HIDDEN LOGIN PAGE -->
+<div class="login_page">
+  <input type="text" style="display: none" />
+  <input type="password" style="display: none" />
+  <input
+    id="password"
+    class="input"
+    type="password"
+    name="pwd"
+    autofocus
+    autocomplete="off"
+    maxlength="3"
+  />
+</div>
+
+<div class="main_page">
+  <!-- HOME BLOCK -->
+  <div class="index_block crossed drop-box">
+    <!-- UNSTICKY TITLE -->
+    <div class="index_text">
+      <h1
+        id="homeworks_title"
+        class="title"
+        style="transform: rotate(1.01turn)"
+      >
+        <span class="English1766"> welcome to the&nbsp; </span>
+        <span id="not_scroll_title" class="slide_title"
+          >HOME<span class="mirror">SKROW</span>
+          <span class="html_company_icons"> &#xa9; </span>
+          <span class="html_smiley_icons"> &#x263A; </span>
+        </span>
+        <span class="English1766"> private club </span>
+        <span class="html_star_icons"> * </span>
+      </h1>
+    </div>
+    <!-- DROP ZONE OF FORM FOR IMAGE -->
+    <div class="images_details_form">
+      <form method="post" action="/upload" enctype="multipart/form-data">
+        <h1 id="uploading">UPLOADING...</h1>
+
+        <!-- FORM FOR IMAGE UPLOAD -->
+        <div id="color_field" class="field">
+          <div class="select is-large">
+            <select id="select_color_upload" class="select_color" required>
+              <option selected value="000000" style="color: #000000">
+                #000000
+              </option>
+              <option value="FFE800" style="color: #ffe800">#FFE800</option>
+              <option value="46AF0E" style="color: #46af0e">#46AF0E</option>
+              <option value="006872" style="color: #006872">#006872</option>
+              <option value="0048BC" style="color: #0048bc">#0048BC</option>
+              <option value="FF6CE3" style="color: #ff6ce3">#FF6CE3</option>
+              <option value="ED322E" style="color: #ed322e">#ED322E</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <input
+              id="artist_name"
+              class="input is-large"
+              type="text"
+              name="artist_name"
+              placeholder="Your name"
+              autocomplete="off"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control has-icons-left">
+            <input
+              id="insta"
+              class="input is-large"
+              type="text"
+              name="insta"
+              placeholder="@pseudo"
+              autocomplete="off"
+              required
+            />
+            <span class="icon is-left">
+              <i class="fa-brands fa-instagram"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control has-icons-left">
+            <input
+              id="artist_email"
+              class="input is-large"
+              type="email"
+              name="artist_email"
+              placeholder="Your email"
+              autocomplete="off"
+            />
+            <span class="icon is-left">
+              <i class="fa-regular fa-paper-plane"></i>
+            </span>
+          </div>
+        </div>
+
+        <a target="_blank" rel="noopener noreferrer" class="submit_button"
+          >SUBMIT</a
+        >
+      </form>
+    </div>
+  </div>
+  <!-- TRADUCTION SENTENCE -->
+  <div class="traduction">
+    <span class="html_star_icons" style="font-size: 1.2rem !important">
+      *
+    </span>
+    <span class="traduction_text"
+      >&nbsp;club privé qui compile une fine sélection d'images&nbsp;</span
+    >
+  </div>
+
+  <!-- STICKY TITLE -->
+  <h1 id="scroll_title" class="title slide_title slide_element">
+    HOME<span class="mirror">SKROW</span>
+    <span class="html_company_icons"> &#xa9; </span>
+    <span class="html_smiley_icons"> &#x263A; </span>
+  </h1>
+
+  <!-- IMAGES DISPLAY STUCTURE -->
+  <div class="columns">
+    <div class="column">
+      <div class="columns is-mobile">
+        <div class="column">
+          {% for filenames in files %}
+          <div class="images_cadre">
+            {% if filenames[0] %}
+            <div
+              class="images_div"
+              id="image_1"
+              style="align-items: flex-start"
+            >
+              <img
+                id="{{filenames[0].id}}"
+                class="images"
+                src="{{filenames[0].file}}"
+              />
+              <span class="description">
+                <div class="description_text" id="artist_name">
+                  {{filenames[0].details.artist_name}}
+                </div>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.instagram.com/{{filenames[0].details.insta[1:]}}/"
+                  class="description_text insta_link"
+                  id="insta"
+                >
+                  {{filenames[0].details.insta}}
+                </a>
+                <div class="description_text" id="size">
+                  {{filenames[0].details.size}}
+                </div>
+                <div class="description_text" id="color">
+                  {{filenames[0].color}}
+                </div>
+              </span>
+            </div>
+            {% endif %} {% if filenames[1] %}
+            <div class="images_div" id="image_2" style="align-items: flex-end">
+              <img
+                id="{{filenames[1].id}}"
+                class="images"
+                src="{{filenames[1].file}}"
+              />
+              <span class="description">
+                <div class="description_text" id="artist_name">
+                  {{filenames[1].details.artist_name}}
+                </div>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.instagram.com/{{filenames[1].details.insta[1:]}}/"
+                  class="description_text insta_link"
+                  id="insta"
+                >
+                  {{filenames[1].details.insta}}
+                </a>
+                <div class="description_text" id="size">
+                  {{filenames[1].details.size}}
+                </div>
+                <div class="description_text" id="color">
+                  {{filenames[1].color}}
+                </div>
+              </span>
+            </div>
+            {% endif %} {% if filenames[2] %}
+            <div class="images_div" id="image_3" style="align-items: revert">
+              <img
+                id="{{filenames[2].id}}"
+                class="images"
+                src="{{filenames[2].file}}"
+              />
+              <span class="description">
+                <div class="description_text" id="artist_name">
+                  {{filenames[2].details.artist_name}}
+                </div>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.instagram.com/{{filenames[2].details.insta[1:]}}/"
+                  class="description_text insta_link"
+                  id="insta"
+                >
+                  {{filenames[2].details.insta}}
+                </a>
+                <div class="description_text" id="size">
+                  {{filenames[2].details.size}}
+                </div>
+                <div class="description_text" id="color">
+                  {{filenames[2].color}}
+                </div>
+              </span>
+            </div>
+            {% endif %} {% if filenames[3] %}
+            <div class="images_div" id="image_4">
+              <img
+                id="{{filenames[3].id}}"
+                class="images"
+                src="{{filenames[3].file}}"
+              />
+              <span class="description" style="transform: rotate(0.75turn)">
+                <div class="description_text" id="artist_name">
+                  {{filenames[3].details.artist_name}}
+                </div>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.instagram.com/{{filenames[3].details.insta[1:]}}/"
+                  class="description_text insta_link"
+                  id="insta"
+                >
+                  {{filenames[3].details.insta}}
+                </a>
+                <div class="description_text" id="size">
+                  {{filenames[3].details.size}}
+                </div>
+                <div class="description_text" id="color">
+                  {{filenames[3].color}}
+                </div>
+              </span>
+            </div>
+            {% endif %} {% if filenames[4] %}
+            <div class="images_div" id="image_5">
+              <span class="description">
+                <div class="description_text" id="artist_name">
+                  {{filenames[4].details.artist_name}}
+                </div>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.instagram.com/{{filenames[4].details.insta[1:]}}/"
+                  class="description_text insta_link"
+                  id="insta"
+                >
+                  {{filenames[4].details.insta}}
+                </a>
+                <div class="description_text" id="size">
+                  {{filenames[4].details.size}}
+                </div>
+                <div class="description_text" id="color">
+                  {{filenames[4].color}}
+                </div>
+              </span>
+              <img
+                id="{{filenames[4].id}}"
+                class="images"
+                src="{{filenames[4].file}}"
+              />
+            </div>
+            {% endif %} {% if filenames[5] %}
+            <div
+              class="images_div"
+              id="image_6"
+              style="align-items: flex-start"
+            >
+              <span class="description">
+                <div class="description_text" id="artist_name">
+                  {{filenames[5].details.artist_name}}
+                </div>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.instagram.com/{{filenames[5].details.insta[1:]}}/"
+                  class="description_text insta_link"
+                  id="insta"
+                >
+                  {{filenames[5].details.insta}}
+                </a>
+                <div class="description_text" id="size">
+                  {{filenames[5].details.size}}
+                </div>
+                <div class="description_text" id="color">
+                  {{filenames[5].color}}
+                </div>
+              </span>
+              <img
+                id="{{filenames[5].id}}"
+                class="images"
+                src="{{filenames[5].file}}"
+              />
+            </div>
+            {% endif %} {% if filenames[6] %}
+            <div class="images_div" id="image_7">
+              <img
+                id="{{filenames[6].id}}"
+                class="images"
+                src="{{filenames[6].file}}"
+              />
+              <span class="description">
+                <div class="description_text" id="artist_name">
+                  {{filenames[6].details.artist_name}}
+                </div>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.instagram.com/{{filenames[6].details.insta[1:]}}/"
+                  class="description_text insta_link"
+                  id="insta"
+                >
+                  {{filenames[6].details.insta}}
+                </a>
+                <div class="description_text" id="size">
+                  {{filenames[6].details.size}}
+                </div>
+                <div class="description_text" id="color">
+                  {{filenames[6].color}}
+                </div>
+              </span>
+            </div>
+            {% endif %} {% if loop.last %}
+            <h1 style="margin-bottom: 50rem !important">&nbsp;</h1>
+            {% else %}
+            <h1 style="margin-bottom: 150rem !important">&nbsp;</h1>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

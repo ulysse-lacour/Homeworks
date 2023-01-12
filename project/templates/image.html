@@ -1,0 +1,39 @@
+<!-- templates/image.html -->
+
+{% extends "base.html" %} {% block content %}
+<style>
+  #full_screen_image {
+      max-width: 90%;
+  }
+
+  #color {
+      color: #{{infos.color}};
+  }
+
+  #header_info {
+      margin-top: 5rem;
+      font-weight: bolder;
+  }
+</style>
+
+<div class="column is-full">
+  <img id="full_screen_image" src="{{image}}" alt="{{infos.name}}" />
+
+  <span class="description_full_screen">
+    <div id="header_info">INFOS :</div>
+    <div class="" id="artist_name">{{infos.details.artist_name}}</div>
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://www.instagram.com/{{infos.details.insta[1:]}}/"
+      class="insta_link"
+      id="insta"
+    >
+      {{infos.details.insta}}
+    </a>
+    <div class="" id="size">{{infos.details.size}}</div>
+    <div class="" id="color">#{{infos.color}}</div>
+  </span>
+</div>
+
+{% endblock %}

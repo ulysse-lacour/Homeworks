@@ -1,0 +1,163 @@
+<!-- templates/admin.html -->
+
+{% extends "base.html" %} {% block content %}
+<style>
+  .display_image {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .description_infos {
+    font-family: "SpaceMono";
+  }
+
+  #no_result {
+    font-size: x-large;
+  }
+
+  .description {
+    margin-top: 3rem;
+  }
+
+  .accept {
+    opacity: 0;
+    margin-top: -4rem;
+  }
+
+  #admin_header {
+    margin-bottom: 6rem;
+    font-weight: bolder;
+  }
+
+  .delete_image:hover {
+    background-color: #fafafa !important;
+    color: rgb(189, 8, 8) !important;
+    transition: background-color 0.5s, color 0.5s;
+    text-decoration: none !important;
+  }
+
+  .delete_image {
+    margin-top: 2rem;
+    background-color: rgb(12, 12, 12) !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+  }
+</style>
+
+<script>
+  $(document).ready(function () {
+    // BUTTON APPEARS ON HOVER :
+    $(".images, .accept").hover(
+      function () {
+        let parent = $(this).parent();
+        parent.children(".button").attr("style", "opacity: 30;");
+        parent
+          .children(".images")
+          .attr(
+            "style",
+            "box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;"
+          );
+      },
+      function () {
+        let parent = $(this).parent();
+        parent.children(".button").attr("style", "opacity: 0;");
+        parent.children(".images").attr("style", "box-shadow: 0;");
+      }
+    );
+  });
+</script>
+
+<div class="column is-full">
+  <h1 id="admin_header">CLUB ENTRY :</h1>
+  {% if files %} {% for filenames in files %}
+  <div class="display_image" id="image_{{filenames.id}}">
+    <img id="{{filenames.id}}" class="images" src="{{filenames.file}}" />
+    <button id="accept_{{filenames.id}}" class="accept button is-normal">
+      Allow in the club ?
+    </button>
+
+    <script>
+      $(document).ready(function () {
+        $("#accept_{{ filenames.id }}").click(function (e) {
+          e.preventDefault();
+          $.ajax({
+            type: "POST",
+            url: "https://homeworks.ulysselacour.com/image/{{ filenames.id }}",
+            beforeSend: function () {
+              return confirm("You sure ?");
+            },
+            success: function () {
+              $("#image_{{filenames.id}}").remove();
+            },
+            error: function (result) {
+              alert("error");
+            },
+          });
+        });
+      });
+    </script>
+
+    <span class="description">
+      <div class="description_infos" id="image_id">{{filenames.id}}</div>
+
+      <div class="description_infos" id="artist_name">
+        {{filenames.details.artist_name}}
+      </div>
+
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://www.instagram.com/{{filenames.details.insta[1:]}}/"
+        class="description_infos insta_link"
+        id="insta"
+      >
+        {{filenames.details.insta}}
+      </a>
+
+      <div class="description_infos" id="size">{{filenames.details.size}}</div>
+      <div class="description_infos" id="color">{{filenames.color}}</div>
+
+      <div class="description_infos" id="email">
+        {{filenames.details.email}}
+      </div>
+
+      <button id="delete_{{filenames.id}}" class="delete_image button is-small">
+        <i class="fas fa-trash-alt"></i>
+      </button>
+
+      <script>
+        $(document).ready(function () {
+          $("#delete_{{ filenames.id }}").click(function (e) {
+            e.preventDefault();
+            $.ajax({
+              type: "DELETE",
+              url: "https://homeworks.ulysselacour.com/image/{{ filenames.id }}",
+              beforeSend: function () {
+                return confirm("You sure ?");
+              },
+              success: function () {
+                $("#image_{{filenames.id}}").remove();
+              },
+              error: function (result) {
+                alert(result);
+              },
+            });
+          });
+        });
+      </script>
+    </span>
+
+    <br />
+    <div id="next_element"></div>
+    <br />
+    <br />
+  </div>
+  {% endfor %} {% else %}
+  <h1 id="no_result">NO NEW UPLOADED FILE</h1>
+  {% endif %}
+</div>
+
+{% endblock %}

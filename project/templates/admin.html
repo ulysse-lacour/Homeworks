@@ -1,0 +1,25 @@
+<!-- templates/admin.html -->
+
+{% extends "base.html" %} {% block content %}
+<style></style>
+
+<div class="column is-full">
+  <form method="POST" action="https://homeworks.ulysselacour.com/admin_login">
+    <div class="field">
+      <div class="control">
+        <h1 id="admin_header">ADMIN</h1>
+        <input
+          id="admin_pwd"
+          class="input is-large"
+          type="password"
+          name="password"
+          placeholder="PWD"
+        />
+      </div>
+    </div>
+
+    <button class="button login is-large">ENTER</button>
+  </form>
+</div>
+
+{% endblock %}
